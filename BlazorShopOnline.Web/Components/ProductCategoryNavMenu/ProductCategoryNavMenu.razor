@@ -1,0 +1,21 @@
+﻿@inherits ProductCategoryNavMenuBase
+
+@if (ProductCategoryDtos.Count() == 0 && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <LoadingSpinner />
+}
+else if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <DisplayError ErrorMessage="@ErrorMessage" />
+}
+else
+{
+    @foreach (var productCategory in ProductCategoryDtos)
+    {
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="@($"/ProductsByCategory/{productCategory.Id}")">
+                <span>@productCategory.Name</span>
+            </NavLink>
+        </div>
+    }
+}

@@ -1,0 +1,22 @@
+﻿@inherits ProductCardBase
+
+@if (Product != null)
+{
+    <div class="col-md-3 mb-2">
+        <a href="/ProductDetails/@Product.Id">
+            <div class="card">
+                <img class="img-thumbnail" src="@Product.ImageURL" />
+
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @Product.Name
+                    </h5>
+
+                    <p class="card-text">
+                        <b>@Product.Price.ToString("C")</b>
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+}

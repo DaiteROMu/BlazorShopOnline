@@ -1,0 +1,67 @@
+﻿@inherits ShoppingCartBase
+
+@if (ShoppingCartItems == null && string.IsNullOrEmpty(ErrorMessage))
+{
+    <LoadingSpinner />
+}
+else if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <DisplayError ErrorMessage="@ErrorMessage" />
+}
+else if (ShoppingCartItems != null)
+{
+    <h3 cart="mb-5">Shopping Cart</h3>
+
+    @if (ShoppingCartItems?.Count > 0)
+    {
+        <div class="row mb-5">
+            <div class="col-md-9">
+                @foreach (var item in ShoppingCartItems)
+                {
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <img src="@item.ProductImageURL" width="300" class="img-thumbnail" />
+                        </div>
+
+                        <div class="col-md-8">
+                            <h5>@item.ProductName</h5>
+
+                            <div class="mb-4">@item.ProductDescription</div>
+
+                            <span>
+                                Price: <b>@item.Price.ToString("C")</b>
+
+                                <input type="number" @bind="item.Quantity" @oninput="(() => UpdateQuantity_Input(item.Id))" />
+
+                                <button data-itemid="@item.Id" class="btn btn-info btn-sm update-quantity-btn__hidden" @onclick="(() => UpdateQuantityCartItem_Click(item.Id, item.Quantity))">Update Quantity</button>
+                            </span>
+
+                            <div>
+                                <button class="btn btn-danger btn-sm" @onclick="(() => DeleteCartItem_Click(item.Id))">
+                                    <span class="oi oi-trash" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-3">
+                <h5>Cart Summary</h5>
+                <div class="mt-2">
+                    <div>Total - (@TotalQuantity.ToString() items)&nbsp;@TotalPrice.ToString("C")</div>
+                    <a href="#" class="btn btn-success">
+                        <span class="oi oi-credit-card"></span>
+                        &nbsp; Proceed to Checkout
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h4 class="mt-4">
+            Your shopping cart is empty.
+        </h4>
+    }
+}

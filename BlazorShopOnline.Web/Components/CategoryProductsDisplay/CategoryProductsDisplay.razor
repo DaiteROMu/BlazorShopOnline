@@ -1,0 +1,14 @@
+﻿@inherits CategoryProductsDisplayBase
+
+@if (Products?.Count() == 0 && string.IsNullOrEmpty(ErrorMessage))
+{
+    <LoadingSpinner />
+}
+else if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <DisplayError ErrorMessage="@ErrorMessage" />
+}
+else
+{
+    <CategoryProductsBlock ProductCategoryName="@CategoryName" Products="@Products" />
+}

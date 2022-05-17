@@ -1,0 +1,32 @@
+﻿@inherits ProductsDisplayBase
+
+@if (Products == null && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <LoadingSpinner />
+    <h3>Loading products...</h3>
+}
+else if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <DisplayError ErrorMessage="@ErrorMessage" />
+}
+else
+{
+    <h3 class="mb-5">Products</h3>
+
+    var productsCount = Products?.Count();
+
+    if (productsCount > 0)
+    {
+        @foreach (var productsGroup in GetGroupedProductsByCategory())
+        {
+            @if (productsGroup == null)
+            {
+                continue;
+            }
+
+            <CategoryProductsBlock ProductCategoryName="@GetCategoryName(productsGroup)" Products="@productsGroup.Take(4)" />
+
+            <hr />
+        }
+    }
+}
